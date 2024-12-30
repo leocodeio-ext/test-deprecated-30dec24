@@ -1,0 +1,16 @@
+participant Client
+participant BFF
+participant PreferencesController
+participant PreferencesService
+participant DB
+
+Client->>BFF: get preferences request
+BFF->>PreferencesController: GET /v1.0/preferences
+
+PreferencesController->>PreferencesService: 
+
+PreferencesService->>DB: get Preferences - find()
+DB-->>PreferencesService: preferences data
+
+PreferencesService-->>PreferencesController: fetched Preferences
+PreferencesController-->>Client: Preferences fetched Response 

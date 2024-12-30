@@ -1,0 +1,21 @@
+participant Client
+participant BFF
+participant PreferencesController
+participant PreferencesService
+participant DB
+
+Client->>BFF: delete preference request
+BFF->>PreferencesController: DELETE /v1.0/preferences/:id
+
+PreferencesController->>PreferencesService: id
+
+PreferencesService->>DB: find by id Preference
+DB-->>PreferencesService: find confirmation
+PreferencesService->>DB: delete by id Preference
+DB-->>PreferencesService: deletion confirmation
+
+PreferencesService-->>PreferencesController: deletion success response
+PreferencesController-->>Client: Check if Preference exists
+PreferencesController-->>Client: Preference deleted Response
+PreferencesController-->>Client: Preference not found Response
+

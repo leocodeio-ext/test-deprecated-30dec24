@@ -1,0 +1,16 @@
+participant Client
+participant BFF
+participant UserController
+participant UserService
+participant DB
+
+Client->>BFF: create user request
+BFF->>UserController: GET /v1.0/user
+
+UserController->>UserService: 
+
+UserService->>DB: get User - find()
+DB-->>UserService: user data
+
+UserService-->>UserController: created User
+UserController-->>Client: User created Response

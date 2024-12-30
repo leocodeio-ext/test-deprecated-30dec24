@@ -1,0 +1,23 @@
+participant Client
+participant BFF
+participant UserController
+participant UserService
+participant DB
+
+Client->>BFF: delete user request
+BFF->>UserController: DELETE /v1.0/user/:id
+
+UserController->>UserService: id
+
+UserService->>DB: find User by id
+alt User exists
+    DB-->>UserService: user found
+    UserService->>DB: delete User
+    DB-->>UserService: deletion confirmation
+    UserService-->>UserController: deletion success response
+    UserController-->>Client: User deleted Response
+else User not found
+    DB-->>UserService: null
+    UserService-->>UserController: User not found response
+    UserController-->>Client: 404 Not Found Response
+end

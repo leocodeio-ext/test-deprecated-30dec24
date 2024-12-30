@@ -1,0 +1,21 @@
+participant Client
+participant BFF
+participant PreferencesController
+participant PreferencesService
+participant DB
+
+Client->>BFF: update preference request
+BFF->>PreferencesController: PATCH /v1.0/preferences/{preferenceId}
+
+PreferencesController->>PreferencesService: updatePreference(preferenceId, dto)
+PreferencesService->>DB: Begin Transaction
+PreferencesService->>DB: Find existing Preference
+
+PreferencesService->>DB: update Preference
+PreferencesService->>DB: create Audit Log
+PreferencesService->>DB: create Status History Log
+
+PreferencesService->>DB: Commit Transaction
+
+PreferencesService-->>PreferencesController: updated Preference
+PreferencesController-->>Client: Preference updated Response 

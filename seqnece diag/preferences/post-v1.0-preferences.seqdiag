@@ -1,0 +1,20 @@
+participant Client
+participant BFF
+participant PreferencesController
+participant PreferencesService
+participant DB
+
+Client->>BFF: create preference request
+BFF->>PreferencesController: POST /v1.0/preferences
+
+PreferencesController->>PreferencesService: createPreference(dto)
+PreferencesService->>DB: Begin Transaction
+
+PreferencesService->>DB: create Preference
+PreferencesService->>DB: create Audit Log
+PreferencesService->>DB: create Status History Log
+
+PreferencesService->>DB: Commit Transaction
+
+PreferencesService-->>PreferencesController: created Preference
+PreferencesController-->>Client: Preference created Response 

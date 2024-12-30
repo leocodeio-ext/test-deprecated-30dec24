@@ -1,0 +1,21 @@
+participant Client
+participant BFF
+participant PreferencesController
+participant PreferencesService
+participant DB
+
+Client->>BFF: get preference request
+BFF->>PreferencesController: GET /v1.0/preferences/:id
+
+PreferencesController->>PreferencesService: id
+
+PreferencesService->>DB: get Preference - findById(id)
+alt Preference found
+    DB-->>PreferencesService: preference data
+    PreferencesService-->>PreferencesController: fetched Preference
+    PreferencesController-->>Client: Preference fetched Response
+else Preference not found
+    DB-->>PreferencesService: null
+    PreferencesService-->>PreferencesController: Preference not found
+    PreferencesController-->>Client: 404 Not Found Response
+end

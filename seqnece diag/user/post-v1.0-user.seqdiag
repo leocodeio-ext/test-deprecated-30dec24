@@ -1,0 +1,26 @@
+participant Client
+participant BFF
+participant UserController
+participant UserService
+participant RoleAssignmentService
+participant DB
+
+Client->>BFF: create user request
+BFF->>UserController: POST /v1.0/user
+
+UserController->>UserService: createUser(dto)
+UserService->>DB: Begin Transaction
+UserService->>RoleAssignmentService: determineUserRoles(dto)
+RoleAssignmentService->>RoleAssignmentService: Check Rules
+RoleAssignmentService-->>UserService: Roles according to email
+
+UserService->>DB: create User
+UserService->>DB: Assign Roles
+UserService->>DB: create Audit Log
+UserService->>DB: create Status History Log
+
+UserService->>DB: Commit Transaction
+
+
+UserService-->>UserController: created User
+UserController-->>Client: User created Response
