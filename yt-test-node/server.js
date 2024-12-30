@@ -13,11 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const upload = multer({ dest: "uploads/" });
 
-const CLIENT_ID =
-  "172892498928-9t6med904ivd94vcaaq10gcsfka9fjhs.apps.googleusercontent.com";
-const CLIENT_SECRET = "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";
-const REDIRECT_URI = "http://localhost:3001/oauth2callback";
-const SCOPES = ["https://www.googleapis.com/auth/youtube.upload"];
+
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
